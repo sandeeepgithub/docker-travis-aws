@@ -1,0 +1,26 @@
+# Specify the version that we will be using
+version: "3"
+
+# Services - type of container to be created
+services:
+  frontend:
+    build: #build from the docker file in the root folder
+      context: . #where is the docker file located. Incase its in folder, it will be ./foldername. and so path will also change for files and folders of app
+      dockerfile: Dockerfile.dev #name of the file
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules #volume for getting node_modules from the container and not from local
+      - .:/app #volume for using files from the local machine:that are requested from app
+    environment: #any environment variables to specify
+      - WATCHPACK_POLLING=true #for react-app above webpack 5
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    environment:
+      - WATCHPACK_POLLING=true
+    command: ["npm", "run", "test"] # overwriting the container's startup command
