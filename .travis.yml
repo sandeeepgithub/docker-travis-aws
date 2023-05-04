@@ -1,0 +1,14 @@
+# Provide sudo permissions
+sudo:required
+
+# Specify the required services
+services:
+  - docker
+
+# Specify the things that we need to do before our tests run
+before_install:
+  - docker build -t docker/frontend -f Dockerfile.dev .
+
+# Run test on travis
+script:
+  - docker run docker/frontend npm run test -- --coverage
