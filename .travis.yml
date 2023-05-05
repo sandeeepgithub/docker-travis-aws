@@ -12,3 +12,6 @@ before_install:
 # Run test on travis
 script:
   - docker run docker/frontend npm run test -- --coverage
+
+
+
